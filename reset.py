@@ -4,13 +4,13 @@ import psycopg2
 
 def reset_base():
     '''
-    Funkcja resetująca bazę danych do postaci początkowej
-    Najpierw wszystkie tablice są kaskadowo usuwane, a następnie tworzone z początkowych danych.
+    Function resetting the database to its initial state.
+    First, all tables are cascaded deleted, and then recreated with initial data.
     '''
     conn = connect()
     c = conn.cursor()
 
-    # Plik z zapytaniami DROP TABLES
+    # drop tables
     filepath_drop = 'sql/drop_tables.sql'
     with open(filepath_drop, 'r', encoding='utf-8') as fd:
         sql_file_drop = fd.read()
@@ -27,7 +27,7 @@ def reset_base():
     conn.commit()
     conn.close()
 
-    # Plik z zapytaniami CREATE TABLES
+    # create tables
     conn = connect()
     c = conn.cursor()
     filepath_create = 'sql/hotel.sql'

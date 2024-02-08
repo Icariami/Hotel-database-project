@@ -5,7 +5,7 @@ import psycopg2
 
 class ServiceForm:
     '''
-    Formularz na dodanie danych do tabeli Service
+    Form for adding data to the Service table
     '''
     def __init__(self, master):
         self.master = master

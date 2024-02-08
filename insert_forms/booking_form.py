@@ -6,26 +6,26 @@ from datetime import datetime
 
 class BookingForm:
     '''
-    Formularz na dodanie danych do tabeli Booking
+    Form for adding data to the Booking table.
     '''
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nową rezerwację")
+        self.top.title("Add a new reservation")
 
-        self.label_room_id = tk.Label(self.top, text="ID pokoju (wymagane):")
+        self.label_room_id = tk.Label(self.top, text="Room ID (required):")
         self.entry_room_id = tk.Entry(self.top)
 
-        self.label_guest_id = tk.Label(self.top, text="ID gościa (wymagane):")
+        self.label_guest_id = tk.Label(self.top, text="Guest ID (required):")
         self.entry_guest_id = tk.Entry(self.top)
 
-        self.label_check_in_date = tk.Label(self.top, text="Data zameldowania (wymagane, format: RRRR-MM-DD):")
+        self.label_check_in_date = tk.Label(self.top, text="Check-in date (required, format: YYYY-MM-DD):")
         self.entry_check_in_date = tk.Entry(self.top)
 
-        self.label_check_out_date = tk.Label(self.top, text="Data wymeldowania (wymagane, format: RRRR-MM-DD):")
+        self.label_check_out_date = tk.Label(self.top, text="Check-out date (required, format: YYYY-MM-DD):")
         self.entry_check_out_date = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj rezerwację", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add reservation", command=self.on_submit)
 
         self.label_room_id.grid(row=1, column=0, padx=20, pady=10)
         self.entry_room_id.grid(row=1, column=1, padx=20, pady=10)
@@ -48,36 +48,36 @@ class BookingForm:
         check_out_date = self.entry_check_out_date.get()
 
         if not room_id or not guest_id or not check_in_date or not check_out_date:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
+
         if not record_exists("Hotel.Room", "room_ID", room_id):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Room o room_ID równym {room_id}.")
+            messagebox.showerror("Error", f"No record in the Room table with room_ID equal to {room_id}.")
             return
 
         if not record_exists("Hotel.Guest", "guest_ID", guest_id):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Guest o guest_ID równym {guest_id}.")
+            messagebox.showerror("Error", f"No record in the Guest table with guest_ID equal to {guest_id}.")
             return
 
         try:
             check_in_date = datetime.strptime(check_in_date, "%Y-%m-%d")
             check_out_date = datetime.strptime(check_out_date, "%Y-%m-%d")
         except ValueError:
-            messagebox.showerror("Błąd", "Nieprawidłowy format daty. Poprawny format to RRRR-MM-DD.")
+            messagebox.showerror("Error", "Invalid date format. The correct format is YYYY-MM-DD.")
             return
 
         if check_out_date <= check_in_date:
-            messagebox.showerror("Błąd", "Data wymeldowania musi być późniejsza niż data zameldowania.")
+            messagebox.showerror("Error", "Check-out date must be later than the check-in date.")
             return
-    
 
         try:
             insert_booking(room_id, guest_id, check_in_date, check_out_date)
-            messagebox.showinfo("Potwierdzenie", "Dodano nową rezerwację!")
+            messagebox.showinfo("Confirmation", "New reservation added!")
             print_booking()
             self.top.destroy()
         except Exception as e:
-            messagebox.showerror("Błąd", "Pokój jest już zajęty w podanym terminie.")
+            messagebox.showerror("Error", "The room is already booked for the given dates.")
+
 
 def record_exists(table, column, value):
     try:

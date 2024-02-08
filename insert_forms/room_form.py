@@ -5,7 +5,7 @@ import psycopg2
 
 class RoomForm:
     '''
-    Formularz na dodanie danych do tabeli Room
+    Form for adding data to the Room table
     '''
     def __init__(self, master):
         self.master = master

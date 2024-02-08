@@ -6,7 +6,7 @@ import psycopg2
 
 class HotelForm:
     '''
-    Formularz na dodanie danych do tabeli Hotel
+    Form for adding data to the Hotel table
     '''
     def __init__(self, master):
         self.master = master

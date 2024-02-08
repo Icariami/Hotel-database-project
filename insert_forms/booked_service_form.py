@@ -5,21 +5,21 @@ import psycopg2
 
 class BookedServiceForm:
     '''
-    Formularz na dodanie danych do tabeli Booked_service
+    Form for adding data to the Booked_service table.
     '''
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Zarezerwuj usługę")
+        self.top.title("Book a service")
 
-        self.label_service_ID = tk.Label(self.top, text="ID usługi (wymagane):")
+        self.label_service_ID = tk.Label(self.top, text="Service ID (required):")
         self.entry_service_ID = tk.Entry(self.top)
 
-        self.label_booking_ID = tk.Label(self.top, text="ID rezerwacji na pobyt w hotelu (wymagane):")
+        self.label_booking_ID = tk.Label(self.top, text="Booking ID for a hotel stay (required):")
         self.entry_booking_ID = tk.Entry(self.top)
 
 
-        self.submit_button = tk.Button(self.top, text="Zarezerwuj usługę", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Book a service", command=self.on_submit)
 
         self.label_service_ID.grid(row=1, column=0, padx=30, pady=10)
         self.entry_service_ID.grid(row=1, column=1, padx=30, pady=10)
@@ -35,19 +35,19 @@ class BookedServiceForm:
         booking_ID = self.entry_booking_ID.get()
 
         if not service_ID or not booking_ID:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
+
         if not record_exists("Hotel.Booking", "booking_ID", booking_ID):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Booking o booking_ID równym {booking_ID}.")
+            messagebox.showerror("Error", f"No record in the Booking table with booking_ID equal to {booking_ID}.")
             return
 
         if not record_exists("Hotel.Service", "service_ID", service_ID):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Service o service_ID równym {service_ID}.")
+            messagebox.showerror("Error", f"No record in the Service table with service_ID equal to {service_ID}.")
             return
 
         insert_booked_service(booking_ID, service_ID)
-        messagebox.showinfo("Potwierdzenie", "Zarezerwowano nową usługę!")
+        messagebox.showinfo("Confirmation", "New service booked!")
         print_booked_service()
         self.top.destroy()
 

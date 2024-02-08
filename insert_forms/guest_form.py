@@ -5,7 +5,7 @@ import psycopg2
 
 class GuestForm:
     '''
-    Formularz na dodanie danych do tabeli Guest
+    Form for adding data to the Guest table
     '''
     def __init__(self, master):
         self.master = master

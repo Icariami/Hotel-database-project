@@ -5,7 +5,7 @@ BEGIN
     IF NEW.rating BETWEEN 1 AND 10 THEN
         RETURN NEW;
     ELSE
-        RAISE EXCEPTION 'Ocena powinna być w zakresie 1-10. Popraw wprowadzone dane.';
+        RAISE EXCEPTION 'The rating should be in the range of 1-10. Please correct the entered data.';
         RETURN NULL;
     END IF;
 END;
@@ -31,7 +31,7 @@ BEGIN
             OR (NEW.check_out_date BETWEEN b.check_in_date AND b.check_out_date)
           )
     ) THEN
-        RAISE EXCEPTION 'Pokój jest już zajęty w podanym terminie.';
+        RAISE EXCEPTION 'The room is already booked for the given dates.';
         RETURN NULL;
     ELSE
         RETURN NEW;

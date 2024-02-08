@@ -5,7 +5,7 @@ import psycopg2
 
 class ReviewForm:
     '''
-    Formularz na dodanie danych do tabeli Review
+    Form for adding data to the Review table
     '''
     def __init__(self, master):
         self.master = master
