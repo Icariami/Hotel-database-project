@@ -1,7 +1,7 @@
 create schema Hotel;
 
--- Tabela przedstawiająca hotel
--- W poniższej bazie operuję na jednym hotelu (o id=1)
+-- Table representing a hotel
+-- In the following database, I operate on one hotel (with id=1)
 CREATE TABLE IF NOT EXISTS Hotel.Hotel
 (
     hotel_ID serial PRIMARY KEY,
@@ -13,8 +13,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Hotel
     star_rating int not null
 );
 
--- Rodzaj pokoju - nazwa, opis, cena za noc, czy można nocować ze zwierzakiem, i ilu-osobowy jest pokój
-CREATE TABLE IF NOT EXISTS Hotel.Room_type
+-- Room type - name, description, price per night, whether pets are allowed, and the capacity of the roomCREATE TABLE IF NOT EXISTS Hotel.Room_type
 (
     room_type_ID serial PRIMARY KEY,
     name character varying(50) NOT NULL,
@@ -24,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Room_type
     capacity integer NOT NULL
 );
 
--- Pokój - jakiego jest rodzaju, numer na drzwiach oraz w jakim hotelu się znajduje
+-- Room - its type, door number, and the hotel it is located in
 CREATE TABLE IF NOT EXISTS Hotel.Room
 (
     room_ID serial PRIMARY KEY,
@@ -33,7 +32,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Room
     hotel_ID integer NOT NULL references Hotel.Hotel
 );
 
--- Gość - Imię, nazwisko, numer telefonu i adres e-mail
+-- Guest - First name, last name, phone number, and email address
 CREATE TABLE IF NOT EXISTS Hotel.Guest
 (
     guest_ID serial NOT NULL PRIMARY KEY,
@@ -43,7 +42,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Guest
     e_mail character varying(50) NOT NULL
 );
 
--- Rezerwacja na pobyt w hotelu z datami zameldowania i wymeldowania
+-- Reservation for a hotel stay with check-in and check-out dates
 CREATE TABLE IF NOT EXISTS Hotel.Booking
 (
     booking_ID serial PRIMARY KEY,
@@ -53,7 +52,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Booking
     check_out_date date NOT NULL
 );
 
--- Usługi realizowane w ramach pobytu w hotelu ale dodatkowo płatne
+-- Services provided during a hotel stay but additionally payable
 CREATE TABLE IF NOT EXISTS Hotel.Service
 (
     service_ID serial PRIMARY KEY,
@@ -62,7 +61,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Service
     price numeric(5, 2) NOT NULL
 );
 
--- Tabela wykorzystanych usług w czasie danego pobytu w hotelu
+-- Table of services used during a specific hotel stay
 CREATE TABLE IF NOT EXISTS Hotel.Booked_service
 (
     Booked_service_ID serial PRIMARY KEY,
@@ -70,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Hotel.Booked_service
     service_ID integer NOT NULL references Hotel.Service
 );
 
--- Opinia o usługach realizowanych w hotelu
+-- Opinion about services provided in the hotel
 CREATE TABLE IF NOT EXISTS Hotel.Review
 (
     review_ID serial PRIMARY KEY,
@@ -82,19 +81,18 @@ CREATE TABLE IF NOT EXISTS Hotel.Review
 
 INSERT INTO Hotel.Hotel (name, address, phone_number, e_mail, description, star_rating) 
 VALUES 
-('Chata', 'ul. Zimowa 18, 
-30-101, Zimów, Polska', '101202303', 'chata@kontakt.com', 'Chata to urokliwy hotel położony w malowniczym otoczeniu gór.\n 
-Nasz hotel oferuje niezapomniane doświadczenia w zimowej scenerii, w otoczeniu białego puchu i zapierających dech w piersiach widoków.\n
-Znajdujemy się z dala od zgiełku miasta, w sercu górskiej natury, zapewniając naszym gościom spokój i odprężenie.\n
-Wnętrza Chaty emanują ciepłem kominka i rustykalnym urokiem, tworząc idealną atmosferę do relaksu po dniu spędzonym na stokach lub na górskich wędrówkach.\n
-Zapraszamy do Chaty - gdzie natura i komfort spotykają się, by stworzyć niezapomniane wspomnienia górskiego pobytu.', 4);
+('Chata', 'ul. Zimowa 18, 30-101, Zimów, Polska', '101202303', 'chata@kontakt.com', 'Chata is a charming hotel located in a picturesque mountain 
+setting.\nOur hotel offers unforgettable experiences in a winter scenery, surrounded by white snow and breathtaking views.\nWe are far away from 
+the city hustle, in the heart of mountain nature, providing our guests with peace and relaxation.\nThe interiors of Chata exude the warmth of a 
+fireplace and rustic charm, creating the perfect atmosphere for relaxation after a day on the slopes or mountain hikes.\nWelcome to Chata - 
+where nature and comfort come together to create unforgettable memories of a mountain stay.', 4);
 
 INSERT INTO Hotel.Room_type (name, description, price_per_night, pet_friendly, capacity) VALUES 
-('Pokój standard', 'Przytulny pokój z widokiem na góry dla dwóch osób, z pojedynczymi łóżkami i łazienką', 150.00, true, 2),
-('Apartament premium', 'Przestrzenny apartament z salonem i sypialnią z podwójnym łóżkiem, oraz dużym balkonem', 300.00, false, 2),
-('Apartament rodzinny 2+2', 'Pokój z dwuosobowym łóżkiem dla rodziców, połączony z pokojem z dwoma osobnymi łóżkami dla dzieci, ze wspólną łazienką', 270.00, true, 4),
-('Pokój standard 3 - osobowy', 'Pokój z trzema pojedynczymi łóżkami i łazienką', 225.00, false, 3),
-('Pokój standard 4 - osobowy', 'Pokój z czterema pojedynczymi łóżkami, balkonem z widokiem na góry i łazienką', 290.00, false, 4);
+('Standard Room', 'Cozy room with a mountain view for two people, with twin beds and a bathroom', 150.00, true, 2),
+('Premium Suite', 'Spacious suite with a living room and a bedroom with a double bed, and a large balcony', 300.00, false, 2),
+('Family Suite 2+2', 'Room with a double bed for parents, connected to a room with two separate beds for children, with a shared bathroom', 270.00, true, 4),
+('Standard Room 3-person', 'Room with three single beds and a bathroom', 225.00, false, 3),
+('Standard Room 4-person', 'Room with four single beds, balcony with mountain view, and a bathroom', 290.00, false, 4);
 
 INSERT INTO Hotel.Room (room_type, door_number, hotel_ID) VALUES 
 (1, 101, 1),
@@ -154,11 +152,11 @@ INSERT INTO Hotel.Booking (room_ID, guest_ID, check_in_date, check_out_date) VAL
 
 
 INSERT INTO Hotel.Service (name, description, price) VALUES 
-('Góralskie śniadanie', 'Szwedzki stół z tradycyjnymi daniami z lokalnych produktów', 20.00),
-('Masaż relaksacyjny', 'Profesjonalny masaż dla odprężenia - 1 godzina', 50.00),
-('Basen', 'Dostęp do basenu z dwoma 25-metrowymi torami, basenu rekreacyjnego oraz jacuzzi', 60.00),
-('Sauna', 'Dostęp do dwóch saun - suchej i mokrej', 60.00),
-('Sauna + basen', 'Pakiet saun oraz basenów', 100.00);
+('Highland Breakfast', 'Buffet with traditional dishes made from local products', 20.00),
+('Relaxation Massage', 'Professional massage for relaxation - 1 hour', 50.00),
+('Swimming Pool', 'Access to the pool with two 25-meter lanes, recreational pool, and jacuzzi', 60.00),
+('Sauna', 'Access to two saunas - dry and wet', 60.00),
+('Sauna + Pool', 'Sauna and pool package', 100.00);
 
 INSERT INTO Hotel.Booked_service (booking_ID, service_ID) VALUES 
 (1, 1),
@@ -179,29 +177,29 @@ INSERT INTO Hotel.Booked_service (booking_ID, service_ID) VALUES
 
 INSERT INTO Hotel.Review (booking_ID, booked_service_ID, rating, review_text)
 VALUES 
-(1, 1, 5, 'Świetne śniadanie! Bardzo smaczne i urozmaicone posiłki.'),
-(2, 3, 4, 'Basen utrzymany w dobrym stanie, przestronny i przyjemna.'),
-(3, 4, 4, 'Bardzo relaksujący basen i sauna, świetne miejsce na odpoczynek.'),
-(4, 6, 5, 'Masaż był rewelacyjny, kompletnie się zrelaksowałem.'),
-(5, 7, 4, 'Świetny basen, odpowiedni dla małych jak i większych dzieci.'),
-(6, 8, 3, 'Basen był OK, ale sauna mogłaby być lepiej utrzymana.'),
-(7, 10, 5, 'Masaż był doskonały, polecam każdemu!'),
-(8, 12, 4, 'Smaczne śniadanie, świetny wybór dań.'),
-(9, 13, 5, 'Super sauny i balie z lodowatą wodą.'),
-(10, 14, 3, 'Basen był OK, jednak oczekiwałem czegoś więcej.');
+(1, 1, 5, 'Great breakfast! Very tasty and varied meals.'),
+(2, 3, 4, 'The pool is well-maintained, spacious, and enjoyable.'),
+(3, 4, 4, 'Very relaxing pool and sauna, a great place to unwind.'),
+(4, 6, 5, 'The massage was fantastic, I completely relaxed.'),
+(5, 7, 4, 'Great pool, suitable for both small and larger children.'),
+(6, 8, 3, 'The pool was okay, but the sauna could be better maintained.'),
+(7, 10, 5, 'The massage was excellent, I recommend it to everyone!'),
+(8, 12, 4, 'Tasty breakfast, great selection of dishes.'),
+(9, 13, 5, 'Super saunas and tubs with icy water.'),
+(10, 14, 3, 'The pool was okay, but I expected something more.');
 
 
 
--- WIDOKI 
+-- VIEWS
 
--- Zestawienie gości, którzy skorzystali z którejś usługi oraz wystawili o niej opinię
+-- Overview of guests who used any service and provided feedback about it
 CREATE VIEW Guest_Service_Reservations_With_Reviews AS
 SELECT
-	g.first_name AS Imię_gościa,
-    g.last_name AS Nazwisko_gościa,
-    s.name AS nazwa_wykorzystanej_usługi,
-    rv.rating AS ocena,
-    rv.review_text as opinia
+	g.first_name AS first_name,
+    g.last_name AS last_name,
+    s.name AS used_service,
+    rv.rating AS rating,
+    rv.review_text as opinion
 FROM
     Hotel.Guest g
 JOIN
@@ -216,13 +214,13 @@ where bs.service_ID is not null and rv.review_ID is not null;
 
 
 
--- Zestawienie przychodów dla hotelu Chata w roku 2023. Płatności za pobyt są dokonywane przed rozpoczęciem pobytu w hotelu.
+-- Overview of revenues for the Chata hotel in the year 2023. Payments for the stay are made before the start of the hotel stay.
 CREATE VIEW Monthly_revenue AS
 SELECT
-    EXTRACT(MONTH FROM b.check_in_date) AS miesiąc,
-    SUM(rt.price_per_night * (b.check_out_date - b.check_in_date)) AS Przychód_za_pokoje,
-    COALESCE(SUM(s.price),0) AS Przychód_za_usługi,
-	SUM(rt.price_per_night * (b.check_out_date - b.check_in_date) + COALESCE(s.price, 0)) as Całkowity_przychód
+    EXTRACT(MONTH FROM b.check_in_date) AS month_nr,
+    SUM(rt.price_per_night * (b.check_out_date - b.check_in_date)) AS Room_revenue,
+    COALESCE(SUM(s.price),0) AS Services_revenue,
+	SUM(rt.price_per_night * (b.check_out_date - b.check_in_date) + COALESCE(s.price, 0)) as Total_revenue
 FROM
     Hotel.Booking b
 JOIN
@@ -243,13 +241,13 @@ ORDER BY
     EXTRACT(MONTH FROM b.check_in_date);
 
 
--- Zestawienie
+-- Overview of average duration of stay of guests, who stayed at the hotel at least two times
 CREATE VIEW Average_duration_of_stay AS
 SELECT
-    g.first_name as imię_gościa,
-    g.last_name as nazwisko_gościa,
-	COUNT(DISTINCT b.booking_ID) as liczba_pobytów_w_hotelu,
-    round(cast(AVG(b.check_out_date - b.check_in_date) as numeric), 2) AS średnia_liczba_dni_pobytu
+    g.first_name as first_name,
+    g.last_name as last_name,
+	COUNT(DISTINCT b.booking_ID) as number_of_stays,
+    round(cast(AVG(b.check_out_date - b.check_in_date) as numeric), 2) AS Average_duration_of_stay
 FROM
     Hotel.Guest g
 JOIN

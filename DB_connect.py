@@ -2,8 +2,8 @@ import psycopg2
 
 def connect():
     '''
-    Funkcja łącząca z bazą danych w postgreSQL.
-    Wykorzystywana w dalszej części projektu
+    Function connecting to the PostgreSQL database.
+    Used in the further part of the project.
     '''
     return psycopg2.connect(
         host = "localhost", 
