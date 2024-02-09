@@ -10,18 +10,18 @@ class ServiceForm:
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nową usługę")
+        self.top.title("Add a new service")
 
-        self.label_service_name = tk.Label(self.top, text="Nazwa usługi (wymagane):")
+        self.label_service_name = tk.Label(self.top, text="Service name (required):")
         self.entry_service_name = tk.Entry(self.top)
 
-        self.label_price = tk.Label(self.top, text="Cena (wymagane):")
+        self.label_price = tk.Label(self.top, text="Price (required):")
         self.entry_price = tk.Entry(self.top)
 
-        self.label_description = tk.Label(self.top, text="Opis:")
+        self.label_description = tk.Label(self.top, text="Description:")
         self.entry_description = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj usługę", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add service", command=self.on_submit)
 
         self.label_service_name.grid(row=1, column=0, padx=20, pady=10)
         self.entry_service_name.grid(row=1, column=1, padx=20, pady=10)
@@ -41,15 +41,15 @@ class ServiceForm:
         description = self.entry_description.get()
 
         if not service_name or not price:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
-        if not (price.isdigit()):
-            messagebox.showerror("Błąd", "Nieprawidłowa cena.")
+
+        if not price.isdigit():
+            messagebox.showerror("Error", "Invalid price.")
             return
 
         insert_service(service_name, description, price)
-        messagebox.showinfo("Potwierdzenie", "Dodano nową usługę!")
+        messagebox.showinfo("Confirmation", "New service added!")
         print_service()
         self.top.destroy()
 

@@ -7,12 +7,12 @@ from PIL import Image, ImageTk
 
 class SelectsForm:
     '''
-    Formularz zawierający przyciski przekierowujące do wyświetlania tabel istniejących w bazie danych.
+    Form containing buttons redirecting to display existing tables in the database.
     '''
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Wyświetlanie tabel")
+        self.top.title("Displaying tables")
 
         background_image = Image.open("images/tree3.jpeg") 
         background_photo = ImageTk.PhotoImage(background_image)
@@ -21,29 +21,30 @@ class SelectsForm:
         background_label.image = background_photo
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.button_select_guest = tk.Button(self.top, text="Wyświetl tabelę gości", command=self.open_guest_table)
+        self.button_select_guest = tk.Button(self.top, text="Display Guests Table", command=self.open_guest_table)
         self.button_select_guest.pack(pady=10, padx=20)
 
-        self.button_select_hotel = tk.Button(self.top, text="Wyświetl tabelę hoteli", command=self.open_hotel_table)
+        self.button_select_hotel = tk.Button(self.top, text="Display Hotels Table", command=self.open_hotel_table)
         self.button_select_hotel.pack(pady=10, padx=20)
 
-        self.button_select_room_type = tk.Button(self.top, text="Wyświetl tabelę rodzajów pokoji", command=self.open_room_type_table)
+        self.button_select_room_type = tk.Button(self.top, text="Display Room Types Table", command=self.open_room_type_table)
         self.button_select_room_type.pack(pady=10, padx=20)
 
-        self.button_select_room = tk.Button(self.top, text="Wyświetl tabelę pokójów", command=self.open_room_table)
+        self.button_select_room = tk.Button(self.top, text="Display Rooms Table", command=self.open_room_table)
         self.button_select_room.pack(pady=10, padx=20)
 
-        self.button_select_booking = tk.Button(self.top, text="Wyświetl tabelę rezerwacji", command=self.open_booking_table)
+        self.button_select_booking = tk.Button(self.top, text="Display Bookings Table", command=self.open_booking_table)
         self.button_select_booking.pack(pady=10, padx=20)
 
-        self.button_select_service = tk.Button(self.top, text="Wyświetl tabelę usług", command=self.open_service_table)
+        self.button_select_service = tk.Button(self.top, text="Display Services Table", command=self.open_service_table)
         self.button_select_service.pack(pady=10, padx=20)
 
-        self.button_select_booked_service = tk.Button(self.top, text="Wyświetl tabelę zarezerwowanych usług", command=self.open_booked_service_table)
+        self.button_select_booked_service = tk.Button(self.top, text="Display Booked Services Table", command=self.open_booked_service_table)
         self.button_select_booked_service.pack(pady=10, padx=20)
 
-        self.button_select_review = tk.Button(self.top, text="Wyświetl tabelę recenzji", command=self.open_review_table)
+        self.button_select_review = tk.Button(self.top, text="Display Reviews Table", command=self.open_review_table)
         self.button_select_review.pack(pady=10, padx=20)
+
 
     def open_guest_table(self):
         result, column_names = self.execute_sql_query('''SELECT * FROM Hotel.Guest''')
@@ -87,11 +88,11 @@ class SelectsForm:
             connection.close()
             return result, column_names
         except psycopg2.Error as e:
-            messagebox.showerror("Błąd", f"Błąd podczas wykonania zapytania SQL: {str(e)}")
+            messagebox.showerror("Error", f"Error during SQL query execution: {str(e)}")
 
     def show_guest(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Guest - Gość")
+        result_window.title("Guest table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -110,7 +111,7 @@ class SelectsForm:
 
     def show_hotel(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Hotel")
+        result_window.title("Hotel table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -129,7 +130,7 @@ class SelectsForm:
 
     def show_room_type(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Room_type - rodzaje pokojów")
+        result_window.title("Room_type table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -149,7 +150,7 @@ class SelectsForm:
 
     def show_room(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Room - pokój")
+        result_window.title("Room table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -167,7 +168,7 @@ class SelectsForm:
 
     def show_booking(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Booking - rezerwacje")
+        result_window.title("Booking table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -186,7 +187,7 @@ class SelectsForm:
 
     def show_service(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Service - usługi")
+        result_window.title("Service table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -205,7 +206,7 @@ class SelectsForm:
 
     def show_booked_service(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Booked_service - wykorzystane usługi")
+        result_window.title("Booked_service table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -222,7 +223,7 @@ class SelectsForm:
 
     def show_review(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Tabela Review - opinie")
+        result_window.title("Review table")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:

@@ -10,24 +10,24 @@ class RoomTypeForm:
     def __init__(self, master) -> None:
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nowy rodzaj pokoju")
+        self.top.title("Add a new room type")
 
-        self.label_name = tk.Label(self.top, text="Nazwa: (wymagane)")
+        self.label_name = tk.Label(self.top, text="Name: (required)")
         self.entry_name = tk.Entry(self.top)
 
-        self.label_description = tk.Label(self.top, text="Opis:")
+        self.label_description = tk.Label(self.top, text="Description:")
         self.entry_description = tk.Entry(self.top)
 
-        self.label_price_per_night = tk.Label(self.top, text="Cena za noc: (wymagane)")
+        self.label_price_per_night = tk.Label(self.top, text="Price per night: (required)")
         self.entry_price_per_night = tk.Entry(self.top)
 
-        self.label_pet_friendly = tk.Label(self.top, text="Czy odpowiedni dla zwierząt (tak/nie): (wymagane)")
+        self.label_pet_friendly = tk.Label(self.top, text="Pet-friendly (yes/no): (required)")
         self.entry_pet_friendly = tk.Entry(self.top)
 
-        self.label_capacity = tk.Label(self.top, text="Ilu osobowy: (wymagane)")
+        self.label_capacity = tk.Label(self.top, text="Capacity: (required)")
         self.entry_capacity = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj rodzaj pokoju", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add room type", command=self.on_submit)
 
         self.label_name.grid(row=1, column=0, padx=20, pady=10)
         self.entry_name.grid(row=1, column=1, padx=20, pady=10)
@@ -51,29 +51,30 @@ class RoomTypeForm:
         description = self.entry_description.get()
         price_per_night = self.entry_price_per_night.get()
         pet_friendly = self.entry_pet_friendly.get()
-        if pet_friendly == "tak" or pet_friendly == "Tak":
+        if pet_friendly.lower() == "tak":
             pet_bool = True
-        elif pet_friendly == "nie" or pet_friendly == "Nie":
+        elif pet_friendly.lower() == "nie":
             pet_bool = False
         else:
-            messagebox.showerror("Błąd", "Nieprawidłowy wpis. Dopuszczalne opcje: tak/nie")
+            messagebox.showerror("Error", "Invalid entry. Allowed options: yes/no")
             return
+
         capacity = self.entry_capacity.get()
 
         if not name or not price_per_night or not pet_friendly or not capacity:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
-        if not (price_per_night.isdigit()):
-            messagebox.showerror("Błąd", "Nieprawidłowa cena.")
+
+        if not price_per_night.isdigit():
+            messagebox.showerror("Error", "Invalid price.")
             return
-        
-        if not (capacity.isdigit()):
-            messagebox.showerror("Błąd", "Nieprawidłowa pojemność pokoju.")
+
+        if not capacity.isdigit():
+            messagebox.showerror("Error", "Invalid room capacity.")
             return
-        
+
         insert_room_type(name, description, price_per_night, pet_bool, capacity)
-        messagebox.showinfo("Potwierdzenie", "Dodano nowy rodzaj pokoju!")
+        messagebox.showinfo("Confirmation", "New room type added!")
         print_room_type()
         self.top.destroy()
 

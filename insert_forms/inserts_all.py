@@ -13,12 +13,12 @@ from PIL import Image, ImageTk
 
 class InsertsForm:
     '''
-    Formularz zawierający przyciski przekierowujące do formularzy dla poszczególnych tabel.
+    Form containing buttons redirecting to forms for individual tables.
     '''
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodawanie do tabel")
+        self.top.title("Adding to tables")
         self.top.geometry("300x380")
 
         background_image = Image.open("images/tree3.jpeg") 
@@ -28,29 +28,30 @@ class InsertsForm:
         background_label.image = background_photo
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.button_add_guest = tk.Button(self.top, text="Dodaj gościa do tabeli 'Guest'", command=self.open_guest_form)
+        self.button_add_guest = tk.Button(self.top, text="Add guest to 'Guest' table", command=self.open_guest_form)
         self.button_add_guest.pack(pady=10)
 
-        self.button_add_hotel = tk.Button(self.top, text="Dodaj hotel do tabeli 'Hotel'", command=self.open_hotel_form)
+        self.button_add_hotel = tk.Button(self.top, text="Add hotel to 'Hotel' table", command=self.open_hotel_form)
         self.button_add_hotel.pack(pady=10)
 
-        self.button_add_room_type = tk.Button(self.top, text="Dodaj rodzaj pokoju do tabeli 'Room_type'", command=self.open_room_type_form)
+        self.button_add_room_type = tk.Button(self.top, text="Add room type to 'Room_type' table", command=self.open_room_type_form)
         self.button_add_room_type.pack(pady=10)
 
-        self.button_add_room = tk.Button(self.top, text="Dodaj pokój do tabeli 'Room'", command=self.open_room_form)
+        self.button_add_room = tk.Button(self.top, text="Add room to 'Room' table", command=self.open_room_form)
         self.button_add_room.pack(pady=10)
 
-        self.button_add_booking = tk.Button(self.top, text="Dodaj rezerwację do tabeli 'Booking'", command=self.open_booking_form)
+        self.button_add_booking = tk.Button(self.top, text="Add reservation to 'Booking' table", command=self.open_booking_form)
         self.button_add_booking.pack(pady=10)
 
-        self.button_add_service = tk.Button(self.top, text="Dodaj usługę do tabeli 'Service'", command=self.open_service_form)
+        self.button_add_service = tk.Button(self.top, text="Add service to 'Service' table", command=self.open_service_form)
         self.button_add_service.pack(pady=10)
 
-        self.button_add_booked_service = tk.Button(self.top, text="Zarezerwuj usługę w tabeli 'Booked_service'", command=self.open_booked_service_form)
+        self.button_add_booked_service = tk.Button(self.top, text="Book service in 'Booked_service' table", command=self.open_booked_service_form)
         self.button_add_booked_service.pack(pady=10)
 
-        self.button_add_review = tk.Button(self.top, text="Dodaj recenzję do tabeli 'Review'", command=self.open_review_form)
+        self.button_add_review = tk.Button(self.top, text="Add review to 'Review' table", command=self.open_review_form)
         self.button_add_review.pack(pady=10)
+
 
     def open_guest_form(self):
         guest_form = GuestForm(self.master)

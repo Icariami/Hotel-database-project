@@ -10,18 +10,18 @@ class RoomForm:
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nowy pokój")
+        self.top.title("Add a new room")
 
-        self.label_room_type = tk.Label(self.top, text="Typ pokoju: (wymagane)")
+        self.label_room_type = tk.Label(self.top, text="Room type: (required)")
         self.entry_room_type = tk.Entry(self.top)
 
-        self.label_door_number = tk.Label(self.top, text="Numer drzwi: (wymagane)")
+        self.label_door_number = tk.Label(self.top, text="Door number: (required)")
         self.entry_door_number = tk.Entry(self.top)
 
-        self.label_hotel_id = tk.Label(self.top, text="ID hotelu: (wymagane)")
+        self.label_hotel_id = tk.Label(self.top, text="Hotel ID: (required)")
         self.entry_hotel_id = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj pokój", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add room", command=self.on_submit)
 
         self.label_room_type.grid(row=1, column=0, padx=20, pady=10)
         self.entry_room_type.grid(row=1, column=1, padx=20, pady=10)
@@ -40,25 +40,26 @@ class RoomForm:
         hotel_id = self.entry_hotel_id.get()
 
         if not room_type or not door_number or not hotel_id:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
+
         if not record_exists("Hotel.Room_type", "room_type_ID", room_type):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Room_type o room_type_ID równym {room_type}.")
+            messagebox.showerror("Error", f"No record in the Room_type table with room_type_ID equal to {room_type}.")
             return
 
         if not record_exists("Hotel.Hotel", "hotel_ID", hotel_id):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Hotel o hotel_ID równym {hotel_id}.")
+            messagebox.showerror("Error", f"No record in the Hotel table with hotel_ID equal to {hotel_id}.")
             return
-        
+
         if not door_number.isdigit():
-            messagebox.showerror("Błąd", "Niepoprawny numer drzwi pokoju.")
+            messagebox.showerror("Error", "Invalid room door number.")
             return
 
         insert_room(room_type, door_number, hotel_id)
-        messagebox.showinfo("Potwierdzenie", "Dodano nowy pokój!")
+        messagebox.showinfo("Confirmation", "New room added!")
         print_room()
         self.top.destroy()
+
 
 def record_exists(table, column, value):
     try:

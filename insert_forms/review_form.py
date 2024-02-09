@@ -10,22 +10,22 @@ class ReviewForm:
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nową opinię")
-        
+        self.top.title("Add a new review")
 
-        self.label_booking_id = tk.Label(self.top, text="ID rezerwacji (wymagane):")
+        self.label_booking_id = tk.Label(self.top, text="Reservation ID (required):")
         self.entry_booking_id = tk.Entry(self.top)
 
-        self.label_booked_service_id = tk.Label(self.top, text="ID zamówionej usługi (wymagane):")
+        self.label_booked_service_id = tk.Label(self.top, text="Booked service ID (required):")
         self.entry_booked_service_id = tk.Entry(self.top)
 
-        self.label_rating = tk.Label(self.top, text="Ocena (wymagane):")
+        self.label_rating = tk.Label(self.top, text="Rating (required):")
         self.entry_rating = tk.Entry(self.top)
 
-        self.label_review_text = tk.Label(self.top, text="Treść opinii:")
+        self.label_review_text = tk.Label(self.top, text="Review text:")
         self.entry_review_text = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj opinię", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add review", command=self.on_submit)
+
 
         self.label_booking_id.grid(row=1, column=0, padx=20, pady=10)
         self.entry_booking_id.grid(row=1, column=1, padx=20, pady=10)
@@ -49,24 +49,24 @@ class ReviewForm:
         review_text = self.entry_review_text.get()
 
         if not booking_id or not rating or not booked_service_id:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
-        
+
         if not record_exists("Hotel.Booking", "booking_ID", booking_id):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Booking o booking_ID równym {booking_id}.")
+            messagebox.showerror("Error", f"No record in the Booking table with booking_ID equal to {booking_id}.")
             return
 
         if not record_exists("Hotel.Booked_service", "booked_service_ID", booked_service_id):
-            messagebox.showerror("Błąd", f"Brak rekordu w tabeli Booked_service o booked_service_ID równym {booked_service_id}.")
+            messagebox.showerror("Error", f"No record in the Booked_service table with booked_service_ID equal to {booked_service_id}.")
             return
 
         try:
             insert_review(booking_id, booked_service_id, rating, review_text)
-            messagebox.showinfo("Potwierdzenie", "Dodano nową opinię!")
+            messagebox.showinfo("Confirmation", "New review added!")
             print_review()
             self.top.destroy()
         except Exception as e:
-            messagebox.showerror("Błąd", "Ocena powinna być w zakresie 1-10. Popraw wprowadzone dane.")
+            messagebox.showerror("Error", "The rating should be in the range of 1-10. Please correct the entered data.")
 
 
 def record_exists(table, column, value):

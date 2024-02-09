@@ -11,27 +11,27 @@ class HotelForm:
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nowy hotel")
+        self.top.title("Add a new hotel")
 
-        self.label_name = tk.Label(self.top, text="Nazwa (wymagane):")
+        self.label_name = tk.Label(self.top, text="Name (required):")
         self.entry_name = tk.Entry(self.top)
 
-        self.label_address = tk.Label(self.top, text="Adres (wymagane):")
+        self.label_address = tk.Label(self.top, text="Address (required):")
         self.entry_address = tk.Entry(self.top)
 
-        self.label_phone_number = tk.Label(self.top, text="Numer telefonu (wymagane):")
+        self.label_phone_number = tk.Label(self.top, text="Phone number (required):")
         self.entry_phone_number = tk.Entry(self.top)
 
-        self.label_e_mail = tk.Label(self.top, text="Adres e-mail (wymagane):")
+        self.label_e_mail = tk.Label(self.top, text="Email address (required):")
         self.entry_e_mail = tk.Entry(self.top)
 
-        self.label_description = tk.Label(self.top, text="Opis:")
+        self.label_description = tk.Label(self.top, text="Description:")
         self.entry_description = tk.Entry(self.top)
 
-        self.label_star_rating = tk.Label(self.top, text="Gwiazdki (wymagane):")
+        self.label_star_rating = tk.Label(self.top, text="Star rating (required):")
         self.entry_star_rating = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj hotel", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add hotel", command=self.on_submit)
 
         self.label_name.grid(row=1, column=0, padx=20, pady=10)
         self.entry_name.grid(row=1, column=1, padx=20, pady=10)
@@ -62,21 +62,22 @@ class HotelForm:
         star_rating = self.entry_star_rating.get()
 
         if not name or not address or not phone_number or not e_mail:
-            messagebox.showerror("Błąd", "Wszystkie wymagane pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All required fields must be filled.\nPlease fill in the missing information.")
             return
 
         if not (phone_number.isdigit() and len(phone_number) in (9, 11)):
-            messagebox.showerror("Błąd", "Numer telefonu powinien zawierać 9 cyfr\nlub 11 (z numerem kierunkowym).")
+            messagebox.showerror("Error", "Phone number should contain 9 digits\nor 11 (with area code).")
             return
-        
+
         if "@" not in e_mail:
-            messagebox.showerror("Błąd", "Niepoprawny adres e-mail.\nPopraw wprowadzone dane.")
+            messagebox.showerror("Error", "Invalid email address.\nPlease correct the entered data.")
             return
 
         insert_hotel(name, address, phone_number, e_mail, description, star_rating)
-        messagebox.showinfo("Potwierdzenie", "Dodano nowy hotel!")
+        messagebox.showinfo("Confirmation", "New hotel added!")
         print_hotel()
         self.top.destroy()
+
 
 def insert_hotel(name, address, phone_number, e_mail, description, star_rating):
     try:

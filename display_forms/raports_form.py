@@ -6,12 +6,12 @@ from PIL import Image, ImageTk
 
 class RaportsForm:
     '''
-    Formularz zawierający przyciski otwerające raporty bazujące na widokach wykonanych na różnych elementach w bazie dancyh
+    The form containing buttons to open reports based on views created on various elements in the database
     '''
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Raporty")
+        self.top.title("Reports")
 
         background_image = Image.open("images/snowysky.jpg!d") 
         background_photo = ImageTk.PhotoImage(background_image)
@@ -20,23 +20,23 @@ class RaportsForm:
         background_label.image = background_photo
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        self.label_first_raport = tk.Label(self.top, text="Raport pierwszy - Zestawienie przychodów dla hotelu Chata w roku 2023:")
-        self.button_first_raport = tk.Button(self.top, text="Zobacz raport 1", command=self.first_raport)
+        self.label_first_report = tk.Label(self.top, text="Report 1 - Summary of revenues for Chata Hotel in 2023:")
+        self.button_first_report = tk.Button(self.top, text="View Report 1", command=self.first_report)
 
-        self.label_second_raport = tk.Label(self.top, text="Raport drugi - Zestawienie gości, którzy skorzystali z którejś z usług \noferowanych przez hotel oraz wystawili o niej opinię:")
-        self.button_second_raport = tk.Button(self.top, text="Zobacz raport 2", command=self.second_raport)
+        self.label_second_report = tk.Label(self.top, text="Report 2 - Summary of guests who used any of the hotel's services \nand provided a review:")
+        self.button_second_report = tk.Button(self.top, text="View Report 2", command=self.second_report)
 
-        self.label_third_raport = tk.Label(self.top, text="Raport trzeci - Zestawienie gości, którzy ponownie skorzystali z hotelu, \nwraz z średnią długością ich odwiedzin:")
-        self.button_third_raport = tk.Button(self.top, text="Zobacz raport 3", command=self.third_raport)
+        self.label_third_report = tk.Label(self.top, text="Report 3 - Summary of guests who revisited the hotel, \nalong with the average length of their visits:")
+        self.button_third_report = tk.Button(self.top, text="View Report 3", command=self.third_report)
 
-        self.label_first_raport.grid(row=1, column=0, padx=10, pady=10)
-        self.button_first_raport.grid(row=1, column=1, padx=10, pady=10)
+        self.label_first_report.grid(row=1, column=0, padx=10, pady=10)
+        self.button_first_report.grid(row=1, column=1, padx=10, pady=10)
 
-        self.label_second_raport.grid(row=2, column=0, padx=10, pady=10)
-        self.button_second_raport.grid(row=2, column=1, padx=10, pady=10)
+        self.label_second_report.grid(row=2, column=0, padx=10, pady=10)
+        self.button_second_report.grid(row=2, column=1, padx=10, pady=10)
 
-        self.label_third_raport.grid(row=3, column=0, padx=10, pady=10)
-        self.button_third_raport.grid(row=3, column=1, padx=10, pady=10)
+        self.label_third_report.grid(row=3, column=0, padx=10, pady=10)
+        self.button_third_report.grid(row=3, column=1, padx=10, pady=10)
 
     def first_raport(self):
         result, column_names = self.execute_sql_query('''SELECT * FROM Monthly_revenue''')
@@ -60,11 +60,11 @@ class RaportsForm:
             connection.close()
             return result, column_names
         except psycopg2.Error as e:
-            messagebox.showerror("Błąd", f"Błąd podczas wykonania zapytania SQL: {str(e)}")
-            
+            messagebox.showerror("Error", f"Error during SQL query execution: {str(e)}")
+        
     def show_second_raport(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Raport 2 - Zestawienie gości, którzy skorzystali z którejś z usług oferowanych przez hotel oraz wystawili o niej opinię")
+        result_window.title("Report 2 - Summary of guests who used any of the hotel's services and provided a review")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -75,14 +75,14 @@ class RaportsForm:
         result_treeview.column("#0", width=0)
         result_treeview.column("#1", width=100)
         result_treeview.column("#2", width=100)
-        result_treeview.column("opinia", width=500)
-        result_treeview.column("ocena", width=50)
+        result_treeview.column("opinion", width=500)
+        result_treeview.column("rating", width=50)
         result_window.geometry("1150x500")  
         result_treeview.pack(expand=True, fill="both")
 
     def show_first_raport(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Raport 1 - Zestawienie przychodów dla hotelu Chata w roku 2023")
+        result_window.title("Report 1 - Summary of revenues for Chata Hotel in 2023")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:
@@ -97,7 +97,7 @@ class RaportsForm:
 
     def show_third_raport(self, result, column_names):
         result_window = tk.Toplevel(self.master)
-        result_window.title("Raport 3 - Zestawienie gości, którzy ponownie skorzystali z hotelu, wraz z średnią długością ich odwiedzin")
+        result_window.title("Report 3 - Summary of guests who revisited the hotel, along with the average length of their visits")
         result_treeview = ttk.Treeview(result_window)
         result_treeview["columns"] = column_names
         for col in column_names:

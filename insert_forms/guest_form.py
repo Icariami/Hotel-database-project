@@ -10,21 +10,21 @@ class GuestForm:
     def __init__(self, master):
         self.master = master
         self.top = tk.Toplevel(master)
-        self.top.title("Dodaj nowego gościa")
+        self.top.title("Add a new guest")
 
-        self.label_first_name = tk.Label(self.top, text="Imię (wymagane):")
+        self.label_first_name = tk.Label(self.top, text="First name (required):")
         self.entry_first_name = tk.Entry(self.top)
 
-        self.label_last_name = tk.Label(self.top, text="Nazwisko (wymagane):")
+        self.label_last_name = tk.Label(self.top, text="Last name (required):")
         self.entry_last_name = tk.Entry(self.top)
 
-        self.label_phone_number = tk.Label(self.top, text="Numer telefonu (wymagane):")
+        self.label_phone_number = tk.Label(self.top, text="Phone number (required):")
         self.entry_phone_number = tk.Entry(self.top)
 
-        self.label_e_mail = tk.Label(self.top, text="Adres e-mail (wymagane):")
+        self.label_e_mail = tk.Label(self.top, text="Email address (required):")
         self.entry_e_mail = tk.Entry(self.top)
 
-        self.submit_button = tk.Button(self.top, text="Dodaj gościa", command=self.on_submit)
+        self.submit_button = tk.Button(self.top, text="Add guest", command=self.on_submit)
 
         self.label_first_name.grid(row=1, column=0, padx=20, pady=10)
         self.entry_first_name.grid(row=1, column=1, padx=20, pady=10)
@@ -47,30 +47,30 @@ class GuestForm:
         e_mail = self.entry_e_mail.get()
 
         if not first_name or not last_name or not phone_number or not e_mail:
-            messagebox.showerror("Błąd", "Wszystkie pola muszą być wypełnione.\n Dopisz dane do pustych pól.")
+            messagebox.showerror("Error", "All fields must be filled.\nPlease fill in the missing information.")
             return
 
         if not first_name.isalpha():
-            messagebox.showerror("Błąd", "Imię powinno składać si ę tylko z liter.\nPopraw wprowadzone dane.")
+            messagebox.showerror("Error", "First name should consist only of letters.\nPlease correct the entered data.")
             return
 
         if not last_name.isalpha():
-            messagebox.showerror("Błąd", "Nazwisko powinno składać się tylko z liter.\nPopraw wprowadzone dane.")
-            return
-        
-        if not (phone_number.isdigit() and len(phone_number) in (9, 11)):
-            messagebox.showerror("Błąd", "Numer telefonu powinien zawierać 9 cyfr\nlub 11 (z numerem kierunkowym).")
-            return
-        
-        if "@" not in e_mail:
-            messagebox.showerror("Błąd", "Niepoprawny adres e-mail.\nPopraw wprowadzone dane.")
+            messagebox.showerror("Error", "Last name should consist only of letters.\nPlease correct the entered data.")
             return
 
+        if not (phone_number.isdigit() and len(phone_number) in (9, 11)):
+            messagebox.showerror("Error", "Phone number should contain 9 digits\nor 11 (with area code).")
+            return
+
+        if "@" not in e_mail:
+            messagebox.showerror("Error", "Invalid email address.\nPlease correct the entered data.")
+            return
 
         insert_guest(first_name, last_name, phone_number, e_mail)
-        messagebox.showinfo("Potwierdzenie", "Dodano nowego gościa!")
+        messagebox.showinfo("Confirmation", "New guest added!")
         print_guest()
         self.top.destroy()
+
 
 
 def print_guest():
