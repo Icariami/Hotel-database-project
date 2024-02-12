@@ -21,7 +21,7 @@ In the Hotel Database Project, the following technologies have been utilized:
 - **psycopg2:** A PostgreSQL adapter for Python, facilitating the connection between the Python application and the PostgreSQL database.
 - **PIL (Pillow):** Python Imaging Library, or its fork Pillow, is used for handling and manipulating images, as well as displaying graphical elements in the GUI.
 
-## Steps to Run
+## How to Run
 
 To run the project locally, follow these steps:
 
